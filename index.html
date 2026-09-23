@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Nâng Cấp Locket Gold</title>
+    <style>
+        :root {
+            --primary-bg: #0d0d0d;
+            --secondary-bg: #1a1a1a;
+            --main-yellow: #FFC107;
+            --main-yellow-hover: #e0a800;
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-color: #333333;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px 20px;
+        }
+
+        /* Panels */
+        .panel {
+            background-color: var(--secondary-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        h2, h3 {
+            color: var(--main-yellow);
+            margin-top: 0;
+        }
+
+        /* Center Form */
+        .center-panel {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+            border: 2px solid var(--main-yellow);
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.1);
+        }
+
+        .center-panel h1 {
+            color: var(--main-yellow);
+            font-size: 32px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .center-panel p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            width: 100%;
+            max-width: 350px;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--main-yellow);
+        }
+
+        .btn {
+            background-color: var(--main-yellow);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .btn:hover {
+            background-color: var(--main-yellow-hover);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Profile Card (Hidden by default) */
+        #profile-card {
+            display: none;
+            width: 100%;
+            max-width: 350px;
+            background-color: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-sizing: border-box;
+            text-align: left;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background-color: var(--main-yellow);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .profile-info h4 {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .profile-info p {
+            margin: 5px 0 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .status-gold {
+            background-color: var(--main-yellow);
+            color: #000;
+        }
+        
+        .status-normal {
+            background-color: #555;
+            color: #fff;
+        }
+
+        /* Side Lists */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li strong {
+            display: block;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .c-icon {
+            color: var(--main-yellow);
+            margin-right: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .center-panel {
+                order: -1; /* Đưa form lên đầu trên mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Cột trái: Cam kết -->
+    <div class="panel">
+        <h3>Cam Kết Dịch Vụ</h3>
+        <ul>
+            <li>
+                <strong><span class="c-icon">✖</span> Không Cần Mật Khẩu</strong>
+                Bảo mật tối đa. Chỉ cần Username, không yêu cầu đăng nhập.
+            </li>
+            <li>
+                <strong><span class="c-icon">✖</span> Không Can Thiệp Thiết Bị</strong>
+                An toàn tuyệt đối cho hệ điều hành và iCloud của bạn.
+            </li>
+            <li>
+                <strong><span class="c-icon">✖</span> Không Cài App Bên Thứ 3</strong>
+                Nâng cấp trực tiếp trên server, không cần thao tác phức tạp.
+            </li>
+            <li>
+                <strong><span class="c-icon">✖</span> Không Bị Rớt Gold</strong>
+                Bảo hành trọn thời gian sử dụng. Ổn định 100%.
+            </li>
+        </ul>
+    </div>
+
+    <!-- Cột giữa: Form Nâng cấp -->
+    <div class="panel center-panel">
+        <h1>LOCKET GOLD</h1>
+        <p>Hệ Thống Nâng Cấp Tự Động 24/7</p>
+
+        <div class="input-group">
+            <input type="text" id="usernameInput" placeholder="Nhập Username Locket..." autocomplete="off">
+        </div>
+        <button class="btn" id="checkBtn" onclick="checkUser()">Tra Cứu Thông Tin</button>
+
+        <!-- Thẻ Profile hiện ra sau khi check -->
+        <div id="profile-card">
+            <div class="profile-header">
+                <div class="avatar" id="avatarInitials">?</div>
+                <div class="profile-info">
+                    <h4 id="displayName">Tên Người Dùng</h4>
+                    <p id="locketUsername">@username</p>
+                </div>
+            </div>
+            <p style="font-size: 12px; margin: 0 0 10px 0;">UID: <span id="uidText">...</span></p>
+            <div class="status-badge status-normal" id="goldStatus">Chưa có Gold</div>
+            
+            <button class="btn" id="upgradeBtn" style="margin-top: 15px;" onclick="upgradeGold()">Kích Hoạt Gold 1 Năm</button>
+        </div>
+    </div>
+
+    <!-- Cột phải: Tính năng -->
+    <div class="panel">
+        <h3>Tính Năng Độc Quyền</h3>
+        <ul>
+            <li>
+                <strong><span class="c-icon">★</span> Mở khóa tính năng Gold</strong>
+                Sử dụng toàn bộ tính năng cao cấp của Locket.
+            </li>
+            <li>
+                <strong><span class="c-icon">★</span> Không quảng cáo</strong>
+                Trải nghiệm mượt mà, sạch bóng không một bóng quảng cáo.
+            </li>
+            <li>
+                <strong><span class="c-icon">★</span> Upload ảnh từ thư viện</strong>
+                Lấy ảnh trực tiếp từ camera roll gửi cho bạn bè nhanh chóng.
+            </li>
+            <li>
+                <strong><span class="c-icon">★</span> Xem người đã xem</strong>
+                Biết chính xác danh sách những ai đã âm thầm xem Locket của bạn.
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Config API Key của CTV (Lưu ý: Đọc ghi chú bên dưới)
+    const API_KEY = "ctv_key_1790068997230_wfjeb9"; 
+
+    // Hàm 1: Tra cứu thông tin User
+    async function checkUser() {
+        const username = document.getElementById('usernameInput').value.trim();
+        const checkBtn = document.getElementById('checkBtn');
+        
+        if(!username) {
+            alert("Vui lòng nhập Username Locket!");
+            return;
+        }
+
+        checkBtn.innerText = "Đang tra cứu...";
+        checkBtn.disabled = true;
+
+        try {
+            // Gọi API 5: Tra cứu Profile
+            const response = await fetch(`https://locketgold.click/api/v1/userinfo?user=${username}`);
+            const data = await response.json();
+
+            if (response.ok && data.username) {
+                // Hiển thị Card Profile
+                document.getElementById('profile-card').style.display = 'block';
+                checkBtn.style.display = 'none'; // Ẩn nút tra cứu đi
+
+                // Cập nhật thông tin lên UI
+                document.getElementById('displayName').innerText = data.displayName;
+                document.getElementById('locketUsername').innerText = "@" + data.username;
+                document.getElementById('uidText').innerText = data.uid;
+                
+                // Tạo Avatar chữ cái đầu
+                document.getElementById('avatarInitials').innerText = data.displayName.charAt(0).toUpperCase();
+
+                // Cập nhật trạng thái Gold
+                const statusBadge = document.getElementById('goldStatus');
+                const upgradeBtn = document.getElementById('upgradeBtn');
+
+                if (data.isGold) {
+                    statusBadge.innerText = data.badge || "Locket Gold (Active)";
+                    statusBadge.className = "status-badge status-gold";
+                    upgradeBtn.style.display = 'none'; // Đã có gold thì ẩn nút nâng cấp
+                } else {
+                    statusBadge.innerText = "Chưa có Gold";
+                    statusBadge.className = "status-badge status-normal";
+                    upgradeBtn.style.display = 'block';
+                }
+            } else {
+                alert(data.message || "Không tìm thấy người dùng này!");
+                document.getElementById('profile-card').style.display = 'none';
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Lỗi kết nối máy chủ. Vui lòng thử lại sau!");
+        } finally {
+            checkBtn.innerText = "Tra Cứu Thông Tin";
+            checkBtn.disabled = false;
+        }
+    }
+
+    // Hàm 2: Kích hoạt Gold
+    async function upgradeGold() {
+        const username = document.getElementById('locketUsername').innerText.replace('@', '');
+        const upgradeBtn = document.getElementById('upgradeBtn');
+        
+        if(!confirm(`Xác nhận dùng 1 lượt gói để nâng cấp Gold cho @${username}?`)) return;
+
+        upgradeBtn.innerText = "Đang xử lý...";
+        upgradeBtn.disabled = true;
+
+        try {
+            // Gọi API 2: Kích Hoạt Bằng Lượt Gói
+            const response = await fetch("https://locketgold.click/api/v1/ctv/gold-package", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-api-key": API_KEY
+                },
+                body: JSON.stringify({ user: username })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.message); // Thông báo thành công
+                // Reload lại info để hiển thị huy hiệu Gold
+                document.getElementById('checkBtn').style.display = 'block';
+                checkUser(); 
+            } else {
+                alert(`Lỗi: ${data.message}`);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Lỗi kết nối máy chủ khi kích hoạt!");
+        } finally {
+            upgradeBtn.innerText = "Kích Hoạt Gold 1 Năm";
+            upgradeBtn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
